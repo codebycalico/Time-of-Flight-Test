@@ -91,11 +91,25 @@ void setup() {
 }
 
 void loop() {
-  // Read the data from the sensors
+  // Detect within a specific range of either sensor
   for (int i = 0; i < TOTAL_TOFS; i++) {
-    // capture the sensor's data
-    ranges_mm[i] = sensors[i].psensor->readRange();
+    if(sensors[i].psensor->readRange() <= 40) {
+      digitalWrite(13, HIGH);
+      Serial.print("Sensor ");
+      Serial.print(i + 1);
+      Serial.print(": ");
+      Serial.print(sensors[i].psensor->readRange());
+      Serial.println("mm");
+    } else {
+      digitalWrite(13, LOW);
+    }
   }
+  
+  // // Read the data from the sensors
+  // for (int i = 0; i < TOTAL_TOFS; i++) {
+  //   // capture the sensor's data
+  //   ranges_mm[i] = sensors[i].psensor->readRange();
+  // }
   
   // Print out the distances to the serial monitor, again using a 'for' loop:
   // for (int i = 0; i < TOTAL_TOFS; i++) {
@@ -110,16 +124,16 @@ void loop() {
   //   }
   // }
 
-  // Detect when within a specific range of either sensor
-  for (int i = 0; i < TOTAL_TOFS; i++) {
-    if(ranges_mm[i] <= 40) {
-      digitalWrite(13, HIGH);
-      Serial.print("Sensor ");
-      Serial.print(i + 1);
-      Serial.print(": ");
-      Serial.println(ranges_mm[i]);
-    } else {
-      digitalWrite(13, LOW);
-    }
-  }
+  // // Detect when within a specific range of either sensor
+  // for (int i = 0; i < TOTAL_TOFS; i++) {
+  //   if(ranges_mm[i] <= 40) {
+  //     digitalWrite(13, HIGH);
+  //     Serial.print("Sensor ");
+  //     Serial.print(i + 1);
+  //     Serial.print(": ");
+  //     Serial.println(ranges_mm[i]);
+  //   } else {
+  //     digitalWrite(13, LOW);
+  //   }
+  // }
 } 
